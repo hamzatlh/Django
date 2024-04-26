@@ -1,3 +1,5 @@
+import sys
+
 states = {
     "Oregon": "OR",
     "Alabama": "AL",
@@ -11,3 +13,14 @@ capital_cities = {
     "NJ": "Trenton",
     "CO": "Denver"
 }
+
+def find_capital_city(state):
+    if state in states:
+        return capital_cities[states[state]]
+    return "Unknown capital city"
+
+if __name__ == '__main__':
+    if len(sys.argv) == 2:
+        print(find_capital_city(sys.argv[1]))
+    else:
+        exit(1)
