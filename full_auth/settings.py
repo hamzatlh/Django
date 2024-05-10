@@ -94,6 +94,13 @@ DATABASES = {
     }
 }
 
+# Email settings
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_ACCESS_KEY_ID = getenv('AWS_ACCESS')
+AWS_SECRET_ACCESS_KEY = getenv('AWS_SECRET')
+USE_SES_V2 = True
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
