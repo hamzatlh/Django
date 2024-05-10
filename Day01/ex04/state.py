@@ -19,7 +19,6 @@ def find_state(capital_city):
     for state in states:
         if capital_cities[states[state]] == capital_city:
             return state
-    return "Unknown state"
 
 
 if __name__ == '__main__':

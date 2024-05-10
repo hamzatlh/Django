@@ -16,8 +16,8 @@ capital_cities = {
 
 def find_capital_city(state):
     if state in states:
-        return capital_cities[states[state]]
-    return "Unknown capital city"
+            return capital_cities[states[state]]
+    return "Unknown state"
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
