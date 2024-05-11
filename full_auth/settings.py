@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'djoser',
     'users',
+
 ]
 
 MIDDLEWARE = [
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'full_auth.urls'
@@ -97,9 +100,14 @@ DATABASES = {
 # Email settings
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
-AWS_ACCESS_KEY_ID = getenv('AWS_ACCESS')
-AWS_SECRET_ACCESS_KEY = getenv('AWS_SECRET')
-USE_SES_V2 = True
+# DEFAULT_FROM_EMAIL = getenv('AWS_SES_FROM_EMAIL')
+
+# AWS_ACCESS_KEY_ID = getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = getenv('AWS_SECRET_ACCESS_KEY')
+# AWS_SES_REGION_NAME = getenv('AWS_SES_REGION_NAME')
+# AWS_SES_REGION_ENDPOINT = f'email.{AWS_SES_REGION_NAME}.amazonaws.com'
+# AWS_SES_FROM_EMAIL = getenv('AWS_SES_FROM_EMAIL')
+# USE_SES_V2 = True
 
 
 # Password validation
@@ -154,13 +162,15 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
-    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': False,
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'TOKEN_MODEL': None,
     'PASSWORD_RESET_CONFIRM_URL': 'password-reset{uid}/{token}',
 }
 
+CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000').split(',')
+CORS_ALLOWED_CREDENTIALS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
