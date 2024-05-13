@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'djoser',
+    'social_django',
     'users',
 
 ]
@@ -149,6 +150,12 @@ STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -167,7 +174,21 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'TOKEN_MODEL': None,
     'PASSWORD_RESET_CONFIRM_URL': 'password-reset{uid}/{token}',
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS').split(','),
 }
+
+
+# AUTH_COOKIE = 'access'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = getenv('GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = getenv('GOOGLE_OAUTH2_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile'
+    'openid'
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000').split(',')
 CORS_ALLOWED_CREDENTIALS = True
