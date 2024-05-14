@@ -64,8 +64,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
+
+# settings.py
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or any other backend
+
 
 ROOT_URLCONF = 'full_auth.urls'
 
@@ -180,21 +183,58 @@ DJOSER = {
 
 # AUTH_COOKIE = 'access'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = getenv('GOOGLE_OAUTH2_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = getenv('GOOGLE_OAUTH2_SECRET')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile'
-    'openid'
-]
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = getenv('GOOGLE_OAUTH2_KEY')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = getenv('GOOGLE_OAUTH2_SECRET')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+#     'https://www.googleapis.com/auth/userinfo.email',
+#     'https://www.googleapis.com/auth/userinfo.profile',
+#     'openid'
+# ]
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
-CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000').split(',')
+CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://127.0.0.1:8000').split(',')
 CORS_ALLOWED_CREDENTIALS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+
+# CLIENT_ID = 'u-s4t2ud-31a6f97b7d236cee545a64cc5bead01fc949922f335932f10c3ec638e6e5ce77'
+# CLIENT_SECRET = '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'
+# REDIRECT_URI = 'http://localhost:8000/oauth2/42/callback/'
+# AUTHORIZATION_BASE_URL = 'https://api.intra.42.fr/oauth/authorize'
+# TOKEN_URL = 'https://api.intra.42.fr/oauth/token'
+# OAUTH2_USER_INFO_URL = 'https://api.intra.42.fr/v2/me'
+# OAUTH2_SCOPE = ['public']
+
+# settings.py
+
+OAUTH2_PROVIDERS = {
+    'google': {
+        'client_id': getenv('GOOGLE_CLIENT_KEY'),
+        'client_secret': getenv('GOOGLE_CLIENT_SECRET'),
+        'redirect_uri': getenv('GOOGLE_REDIRECT_URL'),
+        'authorization_url': 'https://accounts.google.com/o/oauth2/auth',
+        'token_url': 'https://accounts.google.com/o/oauth2/token',
+        'scope': [
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'openid'
+        ],
+        'profile_url': 'https://www.googleapis.com/oauth2/v1/userinfo',
+    },
+    'fortytwo': {
+        'client_id': getenv('FORTYTWO_CLIENT_ID'),
+        'client_secret': getenv('FORTYTWO_CLIENT_SECRET'),
+        'redirect_uri': getenv('FORTYTWO_REDIRECT_URL'),
+        'authorization_url': 'https://api.intra.42.fr/oauth/authorize',
+        'token_url': 'https://api.intra.42.fr/oauth/token',
+        'scope': ['public'],
+        'profile_url': 'https://api.intra.42.fr/v2/me',
+    }
+}
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "users.UserAccount"
